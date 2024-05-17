@@ -8,7 +8,7 @@
   "isBundleMod": false,
   "scripts": {
     "build": "node ./build.mjs",
-    "buildinfo": "node ./build.mjs --verbose"
+    "buildinfo": "rm -rf build && node ./build.mjs --verbose"
   },
   "devDependencies": {
     "@types/node": "16.18.10",
