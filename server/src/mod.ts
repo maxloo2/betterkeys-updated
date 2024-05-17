@@ -108,6 +108,7 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
       'TarkovStreets',
       '5714dc692459777137212e12'
     );
+    this.load(database, this._keys, 'Sandbox', '653e6760052c01c1c805532f');
     this.logger.logWithColor(
       `Finished loading: ${_package.name}-${_package.version}`,
       LogTextColor.GREEN
@@ -120,7 +121,7 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
     mapID: string,
     mapKey: string
   ): void {
-    const keyDb = this.jsonUtil.deserialize(
+    const keyDb: Record<string, any> = this.jsonUtil.deserialize(
       this.vfs.readFile(`${this.modPath}/db/${mapID}.json`)
     );
     for (const keyID in keyDb.Keys) {

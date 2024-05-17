@@ -1,18 +1,19 @@
 {
-	"AutoUpdate": false,
-	"ChangeMarkedKeysBackground": false,
-	"AddIfUsedInQuestsToDesc": true,
-	"AddLootToDesc": true,
-	"BackgroundColor": {
-		"Factory": "green",
-		"Customs": "blue",
-		"Woods": "tracerGreen",
-		"Shoreline": "orange",
-		"Interchange": "tracerRed",
-		"The Lab": "tracerYellow",
-		"Reserve": "violet",
-		"Lighthouse": "red",
-		"Streets of Tarkov": "green",
-		"JunkKeys": "black"
-	}
+  "AutoUpdate": false,
+  "ChangeMarkedKeysBackground": false,
+  "AddIfUsedInQuestsToDesc": true,
+  "AddLootToDesc": true,
+  "BackgroundColor": {
+    "JunkKeys": "black",
+    "Factory": "green",
+    "Customs": "blue",
+    "Woods": "tracerGreen",
+    "Shoreline": "orange",
+    "Interchange": "tracerRed",
+    "The Lab": "tracerYellow",
+    "Reserve": "violet",
+    "Lighthouse": "red",
+    "Streets of Tarkov": "green",
+    "Ground Zero": "blue"
+  }
 }
