@@ -1,19 +1,19 @@
-import _package from '../package.json';
+import https from 'https';
+import { DependencyContainer } from 'tsyringe';
 
 import { PreAkiModLoader } from '@spt-aki/loaders/PreAkiModLoader';
 import { IPostAkiLoadMod } from '@spt-aki/models/external/IPostAkiLoadMod';
 import { IPostDBLoadMod } from '@spt-aki/models/external/IPostDBLoadMod';
 import { IPreAkiLoadMod } from '@spt-aki/models/external/IPreAkiLoadMod';
 import { LogTextColor } from '@spt-aki/models/spt/logging/LogTextColor';
+import { IDatabaseTables } from '@spt-aki/models/spt/server/IDatabaseTables';
 import { ILogger } from '@spt-aki/models/spt/utils/ILogger';
 import { DatabaseServer } from '@spt-aki/servers/DatabaseServer';
 import { DynamicRouterModService } from '@spt-aki/services/mod/dynamicRouter/DynamicRouterModService';
 import { JsonUtil } from '@spt-aki/utils/JsonUtil';
 import { VFS } from '@spt-aki/utils/VFS';
-import { DependencyContainer } from 'tsyringe';
 
-import { IDatabaseTables } from '@spt-aki/models/spt/server/IDatabaseTables';
-import https from 'https';
+import _package from '../package.json';
 
 class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
   private modConfig = require('../config/config.json');
@@ -143,7 +143,7 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
         for (const localeID in database.locales.global) {
           const originalDesc =
             database.locales.global[localeID][`${keyID} Description`];
-          let loadedLocale = this.jsonUtil.deserialize(
+          let loadedLocale: Record<string, any> = this.jsonUtil.deserialize(
             this.vfs.readFile(`${this.modPath}/locale/en.json`)
           );
           if (this.vfs.exists(`${this.modPath}/locale/${localeID}.json`)) {
