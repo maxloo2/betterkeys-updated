@@ -170,57 +170,9 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
     updateDatabasePostLoad: boolean
   ) {
     https
-      .get(`${this.modConfig}/${folder}/_versions.json`, (res) => {
-        let body = '';
-
-        res.on('data', (chunk) => {
-          body += chunk;
-        });
-
-        res.on('end', () => {
-          try {
-            let b = false;
-            const json = JSON.parse(body);
-            for (const i in array) {
-              if (json[array[i]] > versions[array[i]]) {
-                this.updateFile(folder, array[i]);
-                versions[array[i]] = json[array[i]];
-                if (!b) b = true;
-              }
-            }
-
-            if (b) {
-              this.vfs.removeFile(`${this.modPath}/${folder}/_versions.json`);
-              this.vfs.writeFile(
-                `${this.modPath}/${folder}/_versions.json`,
-                body
-              );
-              this.logger.logWithColor(
-                `Finished updating [${folder}]: ${_package.name}-${_package.version}`,
-                LogTextColor.GREEN
-              );
-              if (updateDatabasePostLoad) this.loadDatabase(database);
-            } else {
-              this.logger.logWithColor(
-                `No Updates [${folder}]: ${_package.name}-${_package.version}`,
-                LogTextColor.GREEN
-              );
-              if (updateDatabasePostLoad) this.loadDatabase(database);
-            }
-          } catch (error) {
-            this.logger.error(error.message);
-          }
-        });
-      })
-      .on('error', (error) => {
-        this.logger.error(error.message);
-      });
-  }
-
-  private updateFile(folder: string, file: string): void {
-    if (this.vfs.exists(`${this.modPath}/${folder}/${file}.json`)) {
-      https
-        .get(`${this.modConfig}/${folder}/${file}.json`, (res) => {
+      .get(
+        `${this.modConfig.github}/server/${folder}/_versions.json`,
+        (res) => {
           let body = '';
 
           res.on('data', (chunk) => {
@@ -229,17 +181,71 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
 
           res.on('end', () => {
             try {
-              this.vfs.removeFile(`${this.modPath}/${folder}/${file}.json`);
-              this.vfs.writeFile(
-                `${this.modPath}/${folder}/${file}.json`,
-                body
-              );
-              this.logger.info(`   Updated: ${_package.name}-${file}`);
+              let b = false;
+              const json = JSON.parse(body);
+              for (const i in array) {
+                if (json[array[i]] > versions[array[i]]) {
+                  this.updateFile(folder, array[i]);
+                  versions[array[i]] = json[array[i]];
+                  if (!b) b = true;
+                }
+              }
+
+              if (b) {
+                this.vfs.removeFile(`${this.modPath}/${folder}/_versions.json`);
+                this.vfs.writeFile(
+                  `${this.modPath}/${folder}/_versions.json`,
+                  body
+                );
+                this.logger.logWithColor(
+                  `Finished updating [${folder}]: ${_package.name}-${_package.version}`,
+                  LogTextColor.GREEN
+                );
+                if (updateDatabasePostLoad) this.loadDatabase(database);
+              } else {
+                this.logger.logWithColor(
+                  `No Updates [${folder}]: ${_package.name}-${_package.version}`,
+                  LogTextColor.GREEN
+                );
+                if (updateDatabasePostLoad) this.loadDatabase(database);
+              }
             } catch (error) {
               this.logger.error(error.message);
             }
           });
-        })
+        }
+      )
+      .on('error', (error) => {
+        this.logger.error(error.message);
+      });
+  }
+
+  private updateFile(folder: string, file: string): void {
+    if (this.vfs.exists(`${this.modPath}/${folder}/${file}.json`)) {
+      https
+        .get(
+          `${this.modConfig.github}/server/${folder}/${file}.json`,
+          (res) => {
+            let body = '';
+
+            res.on('data', (chunk) => {
+              body += chunk;
+            });
+
+            res.on('end', () => {
+              try {
+                this.vfs.removeFile(`${this.modPath}/${folder}/${file}.json`);
+                this.vfs.writeFile(
+                  `${this.modPath}/${folder}/${file}.json`,
+                  body
+                );
+                this.logger.info(`   Updated: ${_package.name}-${file}`);
+              } catch (error) {
+                this.logger.error(error.message);
+              }
+            });
+          }
+        )
         .on('error', (error) => {
           this.logger.error(error.message);
         });
