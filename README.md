@@ -7,6 +7,7 @@ Better key information for SPT-AKI. Originally by SirTyler, updated by maxloo2.
 - Colored background for keys and keycards according to map they belongs to. (Marked keys still have their yellow backgrounds, this can be configured with `ChangeMarkedKeysBackground: true`)
 - Maps, Extracts, Quests and Loot information in the item descriptions.
 - **[Updated]** Auto-update from GitHub repository: which means if the code is updated, you can automatically fetch the latest Key Info DB from GitHub. (Enabled by default, can be configured with `enableAutoUpdate: false`)
+- **[New]** Add description for junk keys (previously keys that are not used anywhere are not indicated as such by the mod)
 - **[Removed]** Key Tier List (I don't think it was actually enabled anyway).
 
 Please refer to the original mod for more/ legacy descriptions: https://hub.sp-tarkov.com/files/file/895-better-keys/
@@ -15,7 +16,6 @@ Please refer to the original mod for more/ legacy descriptions: https://hub.sp-t
 
 - Fix auto-update (it works now but not quite)
 - Clean up unused code for Key Tier List
-- Display Junk Keys in BLACK (not implemented)
 
 ##
 

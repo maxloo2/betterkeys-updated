@@ -1,4 +1,5 @@
 {
+  "parser": "@typescript-eslint/parser",
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
@@ -14,8 +15,14 @@
   },
   "settings": {
     "import/resolver": {
-      "node": true,
-      "typescript": true
+      "node": {
+        "extensions": [".ts", ".d.ts"],
+        "moduleDirectory": ["src", "types"]
+      },
+      "typescript": {
+        "extensions": [".ts", ".d.ts"],
+        "moduleDirectory": ["src", "types"]
+      }
     }
   }
 }

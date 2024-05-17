@@ -1,12 +1,12 @@
 {
-      "_keys": "1.2.3",
-      "bigmap": "1.2.0",
-      "factory4": "1.2.0",
-      "Interchange": "1.2.0",
-      "laboratory": "1.2.0",
-      "Lighthouse": "1.2.0",
-      "RezervBase": "1.2.0",
-      "Shoreline": "1.2.0",
-      "Woods": "1.2.0",
-      "TarkovStreets": "1.2.3"
-  }
+  "_constants": "1.3.0",
+  "bigmap": "1.2.0",
+  "factory4": "1.2.0",
+  "Interchange": "1.2.0",
+  "laboratory": "1.2.0",
+  "Lighthouse": "1.2.0",
+  "RezervBase": "1.2.0",
+  "Shoreline": "1.2.0",
+  "Woods": "1.2.0",
+  "TarkovStreets": "1.2.3"
+}

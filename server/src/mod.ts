@@ -1,7 +1,9 @@
 import https from 'https';
 import { DependencyContainer } from 'tsyringe';
 
+import { ItemHelper } from '@spt-aki/helpers/ItemHelper';
 import { PreAkiModLoader } from '@spt-aki/loaders/PreAkiModLoader';
+import { BaseClasses } from '@spt-aki/models/enums/BaseClasses';
 import { IPostAkiLoadMod } from '@spt-aki/models/external/IPostAkiLoadMod';
 import { IPostDBLoadMod } from '@spt-aki/models/external/IPostDBLoadMod';
 import { IPreAkiLoadMod } from '@spt-aki/models/external/IPreAkiLoadMod';
@@ -12,11 +14,10 @@ import { DatabaseServer } from '@spt-aki/servers/DatabaseServer';
 import { DynamicRouterModService } from '@spt-aki/services/mod/dynamicRouter/DynamicRouterModService';
 import { JsonUtil } from '@spt-aki/utils/JsonUtil';
 import { VFS } from '@spt-aki/utils/VFS';
-
 import _package from '../package.json';
 
 class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
-  private modConfig = require('../config/config.json');
+  private config = require('../config/config.json');
   private modPath = 'user/mods/maxloo2-betterkeys-updated';
   private router: DynamicRouterModService;
   private vfs: VFS;
@@ -25,9 +26,10 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
   private path = require('path');
   private logger: ILogger;
   private mod;
-  private _keys;
+  private _constants;
   private _versions;
   private _versionsLocale;
+  private itemHelper: ItemHelper;
 
   public preAkiLoad(container: DependencyContainer): void {
     this.logger = container.resolve<ILogger>('WinstonLogger');
@@ -35,6 +37,7 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
     this.router = container.resolve<DynamicRouterModService>(
       'DynamicRouterModService'
     );
+    this.itemHelper = container.resolve<ItemHelper>('ItemHelper');
     this.mod = require('../package.json');
     this.hookRoutes();
   }
@@ -48,8 +51,8 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
       .resolve<DatabaseServer>('DatabaseServer')
       .getTables();
     this.vfs = container.resolve<VFS>('VFS');
-    this._keys = this.jsonUtil.deserialize(
-      this.vfs.readFile(`${this.modPath}/db/_keys.json`)
+    this._constants = this.jsonUtil.deserialize(
+      this.vfs.readFile(`${this.modPath}/db/_constants.json`)
     );
     this._versions = this.jsonUtil.deserialize(
       this.vfs.readFile(`${this.modPath}/db/_versions.json`)
@@ -57,7 +60,7 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
     this._versionsLocale = this.jsonUtil.deserialize(
       this.vfs.readFile(`${this.modPath}/locale/_versions.json`)
     );
-    if (this.modConfig.enableAutoUpdate) {
+    if (this.config.enableAutoUpdate) {
       const localeArray: string[] = [
         'ch',
         'cz',
@@ -78,7 +81,7 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
       ];
       this.update(this._versionsLocale, 'locale', localeArray, database, false);
       const mapArray: string[] = [
-        '_keys',
+        '_constants',
         'bigmap',
         'factory4',
         'Interchange',
@@ -90,76 +93,103 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
         'TarkovStreets',
       ];
       this.update(this._versions, 'db', mapArray, database, true);
-    } else this.loadDatabase(database);
+    } else {
+      this.loadDatabase(database);
+    }
   }
 
   public loadDatabase(database: IDatabaseTables): void {
-    this.load(database, this._keys, 'bigmap', '56f40101d2720b2a4d8b45d6');
-    this.load(database, this._keys, 'factory4', '55f2d3fd4bdc2d5f408b4567');
-    this.load(database, this._keys, 'Interchange', '5714dbc024597771384a510d');
-    this.load(database, this._keys, 'laboratory', '5b0fc42d86f7744a585f9105');
-    this.load(database, this._keys, 'Lighthouse', '5704e4dad2720bb55b8b4567');
-    this.load(database, this._keys, 'RezervBase', '5704e5fad2720bc05b8b4567');
-    this.load(database, this._keys, 'Shoreline', '5704e554d2720bac5b8b456e');
-    this.load(database, this._keys, 'Woods', '5704e3c2d2720bac5b8b4567');
-    this.load(
-      database,
-      this._keys,
-      'TarkovStreets',
-      '5714dc692459777137212e12'
-    );
-    this.load(database, this._keys, 'Sandbox', '653e6760052c01c1c805532f');
-    this.logger.logWithColor(
-      `Finished loading: ${_package.name}-${_package.version}`,
-      LogTextColor.GREEN
-    );
-  }
+    const ItemHelper = this.itemHelper;
+    const config = this.config;
+    const mapIds: Record<string, any> = this._constants.maps;
 
-  private load(
-    database: IDatabaseTables,
-    modDb,
-    mapID: string,
-    mapKey: string
-  ): void {
-    const keyDb: Record<string, any> = this.jsonUtil.deserialize(
-      this.vfs.readFile(`${this.modPath}/db/${mapID}.json`)
-    );
-    for (const keyID in keyDb.Keys) {
-      if (database.templates.items[keyID]) {
+    const keysWithInfo: string[] = [];
+
+    mapIds.forEach(({ name: mapName, id: mapId }) => {
+      const keyInfoFile: Record<string, any> = this.jsonUtil.deserialize(
+        this.vfs.readFile(`${this.modPath}/db/${mapName}.json`)
+      );
+
+      for (const keyId in keyInfoFile.Keys) {
         if (
-          !this.modConfig.ChangeMarkedKeysBackground &&
-          modDb.MarkedKeys.includes(keyID)
-        )
-          database.templates.items[keyID]._props.BackgroundColor = 'yellow';
-        else {
+          !config.ChangeMarkedKeysBackground &&
+          this._constants.markedKeys.includes(keyInfoFile[keyId])
+        ) {
+          database.templates.items[keyId]._props.BackgroundColor = 'yellow';
+        } else {
           const color =
-            this.modConfig.BackgroundColor[
-              database.locales.global['en'][`${mapKey} Name`]
+            config.BackgroundColor[
+              database.locales.global['en'][`${mapId} Name`]
             ];
-          if (color.toUpperCase() != 'OFF')
-            database.templates.items[keyID]._props.BackgroundColor = color;
+
+          database.templates.items[keyId]._props.BackgroundColor = color;
         }
 
-        for (const localeID in database.locales.global) {
-          const originalDesc =
-            database.locales.global[localeID][`${keyID} Description`];
-          let loadedLocale: Record<string, any> = this.jsonUtil.deserialize(
+        for (const lang in database.locales.global) {
+          const description =
+            database.locales.global[lang][`${keyId} Description`];
+
+          let locale: Record<string, any> = this.jsonUtil.deserialize(
             this.vfs.readFile(`${this.modPath}/locale/en.json`)
           );
-          if (this.vfs.exists(`${this.modPath}/locale/${localeID}.json`)) {
-            loadedLocale = this.jsonUtil.deserialize(
-              this.vfs.readFile(`${this.modPath}/locale/${localeID}.json`)
+          if (this.vfs.exists(`${this.modPath}/locale/${lang}.json`)) {
+            locale = this.jsonUtil.deserialize(
+              this.vfs.readFile(`${this.modPath}/locale/${lang}.json`)
             );
           }
 
-          const betterString = `${loadedLocale.mapString}: ${database.locales.global[localeID][`${mapKey} Name`]}.${BetterKeys.getExtracts(keyID, keyDb, loadedLocale)}\n${BetterKeys.isConfigQuestsEnabled(this.modConfig, keyID, keyDb, loadedLocale, database.locales.global[localeID])}${BetterKeys.isConfigLootEnabled(this.modConfig, keyID, keyDb, loadedLocale)}\n`;
-          database.locales.global[localeID][`${keyID} Description`] =
-            betterString + originalDesc;
-        }
-      }
-    }
+          const keyInfo =
+            `${locale.mapString}: ${database.locales.global[lang][`${mapId} Name`]}.\n` +
+            `${BetterKeys.getExtracts(keyId, keyInfoFile, locale)}\n` +
+            `${BetterKeys.getQuests(config, keyId, keyInfoFile, locale, database.locales.global[lang])}\n` +
+            `${BetterKeys.getLoot(config, keyId, keyInfoFile, locale)}\n`;
 
-    this.logger.info(`   Loaded: ${_package.name}-${mapID}`);
+          database.locales.global[lang][`${keyId} Description`] =
+            keyInfo + '\n\n' + description;
+        }
+
+        keysWithInfo.push(keyId);
+      }
+
+      this.logger.info(
+        `[${_package.name}] Loaded: ${database.locales.global.en[`${mapId} Name`]}`
+      );
+    });
+
+    const keysWithoutInfo = Object.entries(database.templates.items).filter(
+      (item) => {
+        const id = item[0];
+
+        return (
+          ItemHelper.isOfBaseclasses(id, [
+            BaseClasses.KEY,
+            BaseClasses.KEY_MECHANICAL,
+            BaseClasses.KEYCARD,
+          ]) && !keysWithInfo.includes(id)
+        );
+      }
+    );
+
+    keysWithoutInfo.forEach((key) => {
+      const keyId = key[0];
+
+      for (const stringId in database.locales.global) {
+        database.templates.items[keyId]._props.BackgroundColor = 'black';
+
+        const description =
+          database.locales.global[stringId][`${keyId} Description`];
+
+        database.locales.global[stringId][`${keyId} Description`] =
+          `Junk: this key/ keycard is not used anywhere.` +
+          '\n\n' +
+          description;
+      }
+    });
+
+    this.logger.logWithColor(
+      `[${_package.name}-${_package.version}] Added info and background colors to all keys/ keycards`,
+      LogTextColor.GREEN
+    );
   }
 
   private update(
@@ -170,51 +200,48 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
     updateDatabasePostLoad: boolean
   ) {
     https
-      .get(
-        `${this.modConfig.github}/server/${folder}/_versions.json`,
-        (res) => {
-          let body = '';
+      .get(`${this.config.github}/server/${folder}/_versions.json`, (res) => {
+        let body = '';
 
-          res.on('data', (chunk) => {
-            body += chunk;
-          });
+        res.on('data', (chunk) => {
+          body += chunk;
+        });
 
-          res.on('end', () => {
-            try {
-              let b = false;
-              const json = JSON.parse(body);
-              for (const i in array) {
-                if (json[array[i]] > versions[array[i]]) {
-                  this.updateFile(folder, array[i]);
-                  versions[array[i]] = json[array[i]];
-                  if (!b) b = true;
-                }
+        res.on('end', () => {
+          try {
+            let b = false;
+            const json = JSON.parse(body);
+            for (const i in array) {
+              if (json[array[i]] > versions[array[i]]) {
+                this.updateFile(folder, array[i]);
+                versions[array[i]] = json[array[i]];
+                if (!b) b = true;
               }
-
-              if (b) {
-                this.vfs.removeFile(`${this.modPath}/${folder}/_versions.json`);
-                this.vfs.writeFile(
-                  `${this.modPath}/${folder}/_versions.json`,
-                  body
-                );
-                this.logger.logWithColor(
-                  `Finished updating [${folder}]: ${_package.name}-${_package.version}`,
-                  LogTextColor.GREEN
-                );
-                if (updateDatabasePostLoad) this.loadDatabase(database);
-              } else {
-                this.logger.logWithColor(
-                  `No Updates [${folder}]: ${_package.name}-${_package.version}`,
-                  LogTextColor.GREEN
-                );
-                if (updateDatabasePostLoad) this.loadDatabase(database);
-              }
-            } catch (error) {
-              this.logger.error(error.message);
             }
-          });
-        }
-      )
+
+            if (b) {
+              this.vfs.removeFile(`${this.modPath}/${folder}/_versions.json`);
+              this.vfs.writeFile(
+                `${this.modPath}/${folder}/_versions.json`,
+                body
+              );
+              this.logger.logWithColor(
+                `[${_package.name}][${folder}] Update finished`,
+                LogTextColor.GREEN
+              );
+              if (updateDatabasePostLoad) this.loadDatabase(database);
+            } else {
+              this.logger.logWithColor(
+                `[${_package.name}][${folder}] No Updates`,
+                LogTextColor.GREEN
+              );
+              if (updateDatabasePostLoad) this.loadDatabase(database);
+            }
+          } catch (error) {
+            this.logger.error(error.message);
+          }
+        });
+      })
       .on('error', (error) => {
         this.logger.error(error.message);
       });
@@ -223,29 +250,26 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
   private updateFile(folder: string, file: string): void {
     if (this.vfs.exists(`${this.modPath}/${folder}/${file}.json`)) {
       https
-        .get(
-          `${this.modConfig.github}/server/${folder}/${file}.json`,
-          (res) => {
-            let body = '';
+        .get(`${this.config.github}/server/${folder}/${file}.json`, (res) => {
+          let body = '';
 
-            res.on('data', (chunk) => {
-              body += chunk;
-            });
+          res.on('data', (chunk) => {
+            body += chunk;
+          });
 
-            res.on('end', () => {
-              try {
-                this.vfs.removeFile(`${this.modPath}/${folder}/${file}.json`);
-                this.vfs.writeFile(
-                  `${this.modPath}/${folder}/${file}.json`,
-                  body
-                );
-                this.logger.info(`   Updated: ${_package.name}-${file}`);
-              } catch (error) {
-                this.logger.error(error.message);
-              }
-            });
-          }
-        )
+          res.on('end', () => {
+            try {
+              this.vfs.removeFile(`${this.modPath}/${folder}/${file}.json`);
+              this.vfs.writeFile(
+                `${this.modPath}/${folder}/${file}.json`,
+                body
+              );
+              this.logger.info(`[${_package.name}] Updated: ${file}`);
+            } catch (error) {
+              this.logger.error(error.message);
+            }
+          });
+        })
         .on('error', (error) => {
           this.logger.error(error.message);
         });
@@ -308,7 +332,7 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
 
     modOutput.data = {
       ...this.jsonUtil.deserialize(
-        this.vfs.readFile(`${this.modPath}/db/_keys.json`)
+        this.vfs.readFile(`${this.modPath}/db/_constants.json`)
       ),
     };
     modOutput.status = 0;
@@ -316,9 +340,9 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
     return this.jsonUtil.serialize(modOutput);
   }
 
-  static getExtracts(keyId: string, modDb, locale): string {
+  static getExtracts(keyId: string, keyInfoFile, locale): string {
     let extractList = '';
-    for (const extract of modDb.Keys[keyId].Extract)
+    for (const extract of keyInfoFile.Keys[keyId].Extract)
       extractList = extractList + extract + ', ';
     return extractList.length > 0
       ? ` ${locale.requriedForExtract}: ` +
@@ -327,39 +351,38 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
       : '';
   }
 
-  static getLoot(keyId: string, modDb, locale): string {
-    let lootList = '';
-    for (const lootId of modDb.Keys[keyId].Loot)
-      lootList = lootList + locale[lootId] + ', ';
-    return lootList.length > 0
-      ? lootList.substring(0, lootList.length - 2)
-      : `${locale.no}`;
-  }
+  static getLoot(config, keyId: string, keyInfoFile, locale): string {
+    const getList = () => {
+      let lootList = '';
+      for (const lootId of keyInfoFile.Keys[keyId].Loot)
+        lootList = lootList + locale[lootId] + ', ';
+      return lootList.length > 0
+        ? lootList.substring(0, lootList.length - 2)
+        : `${locale.no}`;
+    };
 
-  static isConfigLootEnabled(config, keyId: string, modDb, locale): string {
-    if (config.AddLootToDesc)
-      return `${locale.behindTheLock}: ${BetterKeys.getLoot(keyId, modDb, locale)}.\n`;
+    if (config.AddLootToDesc) return `${locale.behindTheLock}: ${getList()}.`;
     else return '';
   }
 
-  static isUsedInQuests(keyId: string, modDb, locale, database): string {
-    let questList = '';
-    for (const quest of modDb.Keys[keyId].Quest)
-      questList = questList + database[`${quest} name`] + ', ';
-    return questList.length > 0
-      ? questList.substring(0, questList.length - 2)
-      : `${locale.no}`;
-  }
-
-  static isConfigQuestsEnabled(
+  static getQuests(
     config,
     keyId: string,
-    modDb,
+    keyInfoFile,
     locale,
     database
   ): string {
+    const getList = () => {
+      let questList = '';
+      for (const quest of keyInfoFile.Keys[keyId].Quest)
+        questList = questList + database[`${quest} name`] + ', ';
+      return questList.length > 0
+        ? questList.substring(0, questList.length - 2)
+        : `${locale.no}`;
+    };
+
     if (config.AddIfUsedInQuestsToDesc)
-      return `${locale.requiredInQuests}: ${BetterKeys.isUsedInQuests(keyId, modDb, locale, database)}.\n`;
+      return `${locale.requiredInQuests}: ${getList()}.`;
     else return '';
   }
 }
