@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "lib": ["esnext", "dom"],
+    "allowJs": true,
+    "resolveJsonModule": true,
+    // "noEmit": true,
+    "module": "CommonJS",
+    "target": "ES2022",
+    "moduleResolution": "Node10",
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "rootDir": "src",
+    "outDir": "build",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@spt-aki/*": ["./types/*"]
+    }
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
+}
