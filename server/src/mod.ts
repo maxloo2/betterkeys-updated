@@ -113,7 +113,7 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
       for (const keyId in keyInfoFile.Keys) {
         if (
           !config.ChangeMarkedKeysBackground &&
-          this._constants.markedKeys.includes(keyInfoFile[keyId])
+          this._constants.markedKeys.includes(keyId)
         ) {
           database.templates.items[keyId]._props.BackgroundColor = 'yellow';
         } else {
