@@ -1,5 +1,6 @@
 {
-  "AutoUpdate": false,
+  "enableAutoUpdate": true,
+  "github": "https://raw.githubusercontent.com/maxloo2/betterkeys-updated/main",
   "ChangeMarkedKeysBackground": false,
   "AddIfUsedInQuestsToDesc": true,
   "AddLootToDesc": true,
