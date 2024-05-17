@@ -1,8 +1,8 @@
 {
   "mapString": "Map",
-  "questString": "Required in Quests",
-  "extractString": "Extract",
-  "lootString": "Accesses Loot",
+  "requiredInQuests": "Required in Quests",
+  "requriedForExtract": "Required for Extract",
+  "behindTheLock": "Behind the Lock",
   "yes": "Yes",
   "no": "No",
   "Jacket": "Jacket",

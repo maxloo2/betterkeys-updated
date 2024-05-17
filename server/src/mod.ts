@@ -322,7 +322,7 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
     for (const extract of modDb.Keys[keyId].Extract)
       extractList = extractList + extract + ', ';
     return extractList.length > 0
-      ? ` ${locale.extractString}: ` +
+      ? ` ${locale.requriedForExtract}: ` +
           extractList.substring(0, extractList.length - 2) +
           '.'
       : '';
@@ -339,7 +339,7 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
 
   static isConfigLootEnabled(config, keyId: string, modDb, locale): string {
     if (config.AddLootToDesc)
-      return `${locale.lootString}: ${BetterKeys.getLoot(keyId, modDb, locale)}.\n`;
+      return `${locale.behindTheLock}: ${BetterKeys.getLoot(keyId, modDb, locale)}.\n`;
     else return '';
   }
 
@@ -360,7 +360,7 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
     database
   ): string {
     if (config.AddIfUsedInQuestsToDesc)
-      return `${locale.questString}: ${BetterKeys.isUsedInQuests(keyId, modDb, locale, database)}.\n`;
+      return `${locale.requiredInQuests}: ${BetterKeys.isUsedInQuests(keyId, modDb, locale, database)}.\n`;
     else return '';
   }
 }
