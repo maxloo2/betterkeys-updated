@@ -4,7 +4,7 @@ Better key information for SPT-AKI. Originally by SirTyler, updated by maxloo2.
 
 ## Features & Changes
 
-- Colored background for keys and keycards according to map they belongs to. (Marked keys are kept in Golden color, can be configured with `ChangeMarkedKeysBackground: true`)
+- Colored background for keys and keycards according to map they belongs to. (Marked keys still have their yellow backgrounds, this can be configured with `ChangeMarkedKeysBackground: true`)
 - Maps, Extracts, Quests and Loot information in the item descriptions.
 - **[Updated]** Auto-update from GitHub repository: which means if the code is updated, you can automatically fetch the latest Key Info DB from GitHub. (Enabled by default, can be configured with `enableAutoUpdate: false`)
 - **[Removed]** Key Tier List (I don't think it was actually enabled anyway).
