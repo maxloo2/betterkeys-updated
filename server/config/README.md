@@ -11,3 +11,5 @@
 - `tracerGreen` = Woods (green in green, I see what you did there SirTyler!)
 - `tracerRed` = Interchange
 - `default` = White Background, common for a lot of items in vanilla (barter, gear, etc.)
+
+Might work with Color Coverter API for more colors, but I have not tested it myself yet.

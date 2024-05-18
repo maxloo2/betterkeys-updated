@@ -1,10 +1,13 @@
 {
   "enableAutoUpdate": true,
   "github": "https://raw.githubusercontent.com/maxloo2/betterkeys-updated/main",
-  "ChangeMarkedKeysBackground": false,
-  "AddIfUsedInQuestsToDesc": true,
-  "AddLootToDesc": true,
-  "BackgroundColor": {
+  "backgroundColor": true,
+  "descriptionInfo": true,
+  "yellowMarkedKeys": true,
+  "requiredInQuests": true,
+  "requiredForExtracts": true,
+  "behindTheLoock": true,
+  "backgroundColors": {
     "Factory": "green",
     "Customs": "blue",
     "Woods": "tracerGreen",
