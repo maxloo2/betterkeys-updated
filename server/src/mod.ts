@@ -14,6 +14,7 @@ import { DatabaseServer } from '@spt-aki/servers/DatabaseServer';
 import { DynamicRouterModService } from '@spt-aki/services/mod/dynamicRouter/DynamicRouterModService';
 import { JsonUtil } from '@spt-aki/utils/JsonUtil';
 import { VFS } from '@spt-aki/utils/VFS';
+
 import _package from '../package.json';
 
 class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
@@ -103,7 +104,7 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
             database.templates.items[keyId]._props.BackgroundColor = 'yellow';
           } else {
             const color =
-              config.backgroundColor[
+              config.backgroundColors[
                 database.locales.global['en'][`${mapId} Name`]
               ];
 
@@ -119,16 +120,20 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
             let locale: Record<string, any> = this.jsonUtil.deserialize(
               this.vfs.readFile(`${this.modPath}/locale/en.json`)
             );
+
             if (this.vfs.exists(`${this.modPath}/locale/${lang}.json`)) {
               locale = this.jsonUtil.deserialize(
                 this.vfs.readFile(`${this.modPath}/locale/${lang}.json`)
               );
             }
 
+            const dbLocale: Record<string, string> =
+              database.locales.global[lang];
+
             const keyInfo =
-              `${locale.mapString}: ${database.locales.global[lang][`${mapId} Name`]}.` +
+              `${locale.mapString}: ${dbLocale[`${mapId} Name`]}.` +
               `${BetterKeys.getRequiredForExtracts(config, keyId, keyInfoFile, locale)}` +
-              `${BetterKeys.getRequiredInQuests(config, keyId, keyInfoFile, locale, database.locales.global[lang])}` +
+              `${BetterKeys.getRequiredInQuests(config, keyId, keyInfoFile, locale, dbLocale)}` +
               `${BetterKeys.getBehindTheLock(config, keyId, keyInfoFile, locale)}`;
 
             database.locales.global[lang][`${keyId} Description`] =
@@ -307,33 +312,46 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
   static getRequiredForExtracts(
     config,
     keyId: string,
-    keyInfoFile,
-    locale
+    keyInfoFile: Record<string, any>,
+    locale: Record<string, any>
   ): string {
     if (config.requriedForExtract) {
       let extractList = '';
-      for (const extract of keyInfoFile.Keys[keyId].Extract)
+
+      for (const extract of keyInfoFile.Keys[keyId].Extract) {
         extractList = extractList + extract + ', ';
-      return extractList.length > 0
-        ? ` ${locale.requriedForExtract}: ` +
-            extractList.substring(0, extractList.length - 2) +
-            '.'
-        : '';
+      }
+
+      const requiredForExtracts: string =
+        extractList.length > 0
+          ? extractList.substring(0, extractList.length - 2)
+          : `${locale.no}`;
+
+      return `${locale.requriedForExtract}: ${requiredForExtracts}.\n`;
+    } else {
+      return '';
     }
   }
 
-  static getBehindTheLock(config, keyId: string, keyInfoFile, locale): string {
-    const getList = () => {
-      let lootList = '';
-      for (const lootId of keyInfoFile.Keys[keyId].Loot)
-        lootList = lootList + locale[lootId] + ', ';
-      return lootList.length > 0
-        ? lootList.substring(0, lootList.length - 2)
-        : `${locale.no}`;
-    };
-
+  static getBehindTheLock(
+    config,
+    keyId: string,
+    keyInfoFile: Record<string, any>,
+    locale: Record<string, any>
+  ): string {
     if (config.behindTheLoock) {
-      return `${locale.behindTheLock}: ${getList()}.`;
+      let lootList = '';
+
+      for (const lootId of keyInfoFile.Keys[keyId].Loot) {
+        lootList = lootList + locale[lootId] + ', ';
+      }
+
+      const behindTheLock: string =
+        lootList.length > 0
+          ? lootList.substring(0, lootList.length - 2)
+          : `${locale.no}`;
+
+      return `${locale.behindTheLock}: ${behindTheLock}.\n`;
     } else {
       return '';
     }
@@ -342,23 +360,23 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
   static getRequiredInQuests(
     config,
     keyId: string,
-    keyInfoFile,
-    locale,
-    database
+    keyInfoFile: Record<string, any>,
+    locale: Record<string, any>,
+    dbLocale: Record<string, string>
   ): string {
     if (config.requiredInQuests) {
       let questList = '';
 
-      for (const quest of keyInfoFile.Keys[keyId].Quest) {
-        questList = questList + database[`${quest} name`] + ', ';
+      for (const questId of keyInfoFile.Keys[keyId].Quest) {
+        questList = questList + dbLocale[`${questId} name`] + ', ';
       }
 
-      const questText =
+      const requiredInQuests =
         questList.length > 0
           ? questList.substring(0, questList.length - 2)
           : `${locale.no}`;
 
-      return `${locale.requiredInQuests}: ${questText}.`;
+      return `${locale.requiredInQuests}: ${requiredInQuests}.\n`;
     } else {
       return '';
     }
