@@ -131,13 +131,13 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
               database.locales.global[lang];
 
             const keyInfo =
-              `${locale.mapString}: ${dbLocale[`${mapId} Name`]}.` +
+              `${locale.mapString}: ${dbLocale[`${mapId} Name`]}.\n` +
               `${BetterKeys.getRequiredForExtracts(config, keyId, keyInfoFile, locale)}` +
               `${BetterKeys.getRequiredInQuests(config, keyId, keyInfoFile, locale, dbLocale)}` +
               `${BetterKeys.getBehindTheLock(config, keyId, keyInfoFile, locale)}`;
 
             database.locales.global[lang][`${keyId} Description`] =
-              keyInfo + '\n\n' + description;
+              keyInfo + '\n' + description;
           }
         }
 
