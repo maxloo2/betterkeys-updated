@@ -11,6 +11,8 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "outDir": "build",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "paths": {
       "@/*": ["./src/*"],
       "@spt-aki/*": ["./types/*"]
