@@ -11,7 +11,6 @@ import { LogTextColor } from '@spt-aki/models/spt/logging/LogTextColor';
 import { IDatabaseTables } from '@spt-aki/models/spt/server/IDatabaseTables';
 import { ILogger } from '@spt-aki/models/spt/utils/ILogger';
 import { DatabaseServer } from '@spt-aki/servers/DatabaseServer';
-import { DynamicRouterModService } from '@spt-aki/services/mod/dynamicRouter/DynamicRouterModService';
 import { JsonUtil } from '@spt-aki/utils/JsonUtil';
 import { VFS } from '@spt-aki/utils/VFS';
 
@@ -20,7 +19,6 @@ import _package from '../package.json';
 class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
   private config = require('../config/config.json');
   private modPath = 'user/mods/maxloo2-betterkeys-updated';
-  private router: DynamicRouterModService;
   private vfs: VFS;
   private modLoader: PreAkiModLoader;
   private jsonUtil: JsonUtil;
@@ -35,12 +33,8 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
   public preAkiLoad(container: DependencyContainer): void {
     this.logger = container.resolve<ILogger>('WinstonLogger');
     this.jsonUtil = container.resolve<JsonUtil>('JsonUtil');
-    this.router = container.resolve<DynamicRouterModService>(
-      'DynamicRouterModService'
-    );
     this.itemHelper = container.resolve<ItemHelper>('ItemHelper');
     this.mod = require('../package.json');
-    this.hookRoutes();
   }
 
   public postAkiLoad(container: DependencyContainer): void {
@@ -271,21 +265,6 @@ class BetterKeys implements IPostDBLoadMod, IPreAkiLoadMod, IPostAkiLoadMod {
           this.logger.error(error.message);
         });
     }
-  }
-
-  private hookRoutes(): void {
-    this.router.registerDynamicRouter(
-      'betterkeys-updated',
-      [
-        {
-          url: '/betterkeys-updated/GetInfo',
-          action: (url, info, sessionId, output) => {
-            return this.getModInfo(url, info, sessionId, output);
-          },
-        },
-      ],
-      'betterkeys-updated'
-    );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
