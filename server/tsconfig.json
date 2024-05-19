@@ -16,6 +16,6 @@
       "@spt-aki/*": ["./types/*"]
     }
   },
-  "include": ["**/*.ts"],
+  "include": ["**/*.ts", "**/*.d.ts"],
   "exclude": ["node_modules", "build"]
 }

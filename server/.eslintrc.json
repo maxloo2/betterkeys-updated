@@ -1,15 +1,7 @@
 {
   "parser": "@typescript-eslint/parser",
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:@typescript-eslint/strict",
-    "plugin:@typescript-eslint/stylistic",
-    "plugin:import/recommended",
-    "plugin:import/typescript"
-  ],
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
   "rules": {
-    "import/newline-after-import": "error",
     "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/no-unused-vars": "warn"
   },
