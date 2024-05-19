@@ -2,41 +2,85 @@ import { DependencyContainer } from 'tsyringe';
 
 import { ItemHelper } from '@spt-aki/helpers/ItemHelper';
 import { BaseClasses } from '@spt-aki/models/enums/BaseClasses';
-import { IPostDBLoadMod } from '@spt-aki/models/external/IPostDBLoadMod';
 import { LogTextColor } from '@spt-aki/models/spt/logging/LogTextColor';
 import { IDatabaseTables } from '@spt-aki/models/spt/server/IDatabaseTables';
 import { DatabaseServer } from '@spt-aki/servers/DatabaseServer';
 import { VFS } from '@spt-aki/utils/VFS';
 
+import { IPostDBLoadModAsync } from '@spt-aki/models/external/IPostDBLoadModAsync';
 import { ILogger } from '@spt-aki/models/spt/utils/ILogger';
 import _package from '../package.json';
 
-class Mod implements IPostDBLoadMod {
+class Mod implements IPostDBLoadModAsync {
   private modPath = 'user/mods/maxloo2-betterkeys-updated';
   private container: DependencyContainer;
 
-  public postDBLoad(container: DependencyContainer): void {
+  public async postDBLoadAsync(container: DependencyContainer): Promise<void> {
     this.container = container;
+    const vfs: VFS = container.resolve<VFS>('VFS');
 
-    const database = container
+    const db: IDatabaseTables = container
       .resolve<DatabaseServer>('DatabaseServer')
       .getTables();
 
-    const vfs = container.resolve<VFS>('VFS');
-
-    const config = JSON.parse(
+    const config: Record<string, any> = JSON.parse(
       vfs.readFile(`${this.modPath}/config/config.json`)
     );
 
+    const github: string = config.github;
+
     if (config.enableAutoUpdate) {
-      this.autoUpdate(config);
-      this.main(database, config);
+      await this.autoUpdate(github, vfs);
+      this.main(db, config);
     } else {
-      this.main(database, config);
+      this.main(db, config);
     }
   }
 
-  public main(database: IDatabaseTables, config: Record<string, any>): void {
+  private async autoUpdate(github: string, vfs: VFS) {
+    const logger = this.container.resolve<ILogger>('WinstonLogger');
+
+    const updatePromises = ['db', 'locales'].map((folderName) => {
+      const folderPath = `${this.modPath}/${folderName}`;
+
+      logger.info(`[${_package.name}] Checking for updates: ${folderPath}`);
+
+      return Promise.all(
+        vfs.getFiles(folderPath).map((fileName) => {
+          const localFile = JSON.parse(
+            vfs.readFile(`${folderPath}/${fileName}`)
+          );
+          const _version = localFile._version;
+
+          return fetch(`${github}/server/${folderName}/${fileName}`)
+            .then((response) => response.json())
+            .then((targetFile) => {
+              const targetVersion = targetFile._version;
+
+              if (targetVersion !== _version) {
+                logger.warning(
+                  `[${_package.name}] Updating ${folderName}/${fileName} (Local: ${_version}, GitHub: ${targetVersion})`
+                );
+                vfs.writeFile(
+                  `${folderPath}/${fileName}`,
+                  JSON.stringify(targetFile, null, 2)
+                );
+              }
+            });
+        })
+      );
+    });
+
+    return await Promise.all(updatePromises)
+      .then(() => {
+        logger.success(`[${_package.name}] Finished checking for updates.`);
+      })
+      .catch((error) => {
+        logger.error(`[${_package.name}] Error checking for updates: ${error}`);
+      });
+  }
+
+  public main(db: IDatabaseTables, config: Record<string, any>): void {
     const vfs = this.container.resolve<VFS>('VFS');
     const logger = this.container.resolve<ILogger>('WinstonLogger');
     const ItemHelper = this.container.resolve<ItemHelper>('ItemHelper');
@@ -54,7 +98,7 @@ class Mod implements IPostDBLoadMod {
       );
 
       for (const keyId in keyInfoFile.Keys) {
-        const keyItem = database.templates.items[keyId];
+        const keyItem = db.templates.items[keyId];
 
         if (config.backgroundColor) {
           if (
@@ -64,18 +108,15 @@ class Mod implements IPostDBLoadMod {
             keyItem._props.BackgroundColor = 'yellow';
           } else {
             const color =
-              config.backgroundColors[
-                database.locales.global['en'][`${mapId} Name`]
-              ];
+              config.backgroundColors[db.locales.global['en'][`${mapId} Name`]];
 
             keyItem._props.BackgroundColor = color;
           }
         }
 
         if (config.descriptionInfo) {
-          for (const lang in database.locales.global) {
-            const description =
-              database.locales.global[lang][`${keyId} Description`];
+          for (const lang in db.locales.global) {
+            const description = db.locales.global[lang][`${keyId} Description`];
 
             let modLocale: Record<string, any>;
 
@@ -89,23 +130,23 @@ class Mod implements IPostDBLoadMod {
               );
             }
 
-            const dbLocale: Record<string, string> =
-              database.locales.global[lang];
+            const dbLangLocale: Record<string, string> =
+              db.locales.global[lang];
 
             const obj = {
               config,
               keyId,
               keyInfoFile,
-              dbLocale,
               modLocale,
+              dbLangLocale,
             };
 
             const keyInfo =
-              `${modLocale.mapString}: ${dbLocale[`${mapId} Name`]}.\n` +
+              `${modLocale.mapString}: ${dbLangLocale[`${mapId} Name`]}.\n` +
               `${Mod.getRequiredForExtracts(obj)}` +
               `${Mod.getRequiredInQuests(obj)}${Mod.getBehindTheLock(obj)}`;
 
-            database.locales.global[lang][`${keyId} Description`] =
+            db.locales.global[lang][`${keyId} Description`] =
               keyInfo + '\n' + description;
           }
         }
@@ -114,11 +155,11 @@ class Mod implements IPostDBLoadMod {
       }
 
       logger.info(
-        `[${_package.name}] Loaded: ${database.locales.global.en[`${mapId} Name`]}`
+        `[${_package.name}] Loaded: ${db.locales.global.en[`${mapId} Name`]}`
       );
     });
 
-    const keysWithoutInfo = Object.entries(database.templates.items).filter(
+    const keysWithoutInfo = Object.entries(db.templates.items).filter(
       (item) => {
         const id = item[0];
 
@@ -135,16 +176,16 @@ class Mod implements IPostDBLoadMod {
     keysWithoutInfo.forEach((key) => {
       const keyId = key[0];
 
-      for (const stringId in database.locales.global) {
+      for (const stringId in db.locales.global) {
         if (config.backgroundColor) {
-          database.templates.items[keyId]._props.BackgroundColor = 'black';
+          db.templates.items[keyId]._props.BackgroundColor = 'black';
         }
 
         if (config.descriptionInfo) {
           const description =
-            database.locales.global[stringId][`${keyId} Description`];
+            db.locales.global[stringId][`${keyId} Description`];
 
-          database.locales.global[stringId][`${keyId} Description`] =
+          db.locales.global[stringId][`${keyId} Description`] =
             `Junk: this key/ keycard is not used anywhere.` +
             '\n\n' +
             description;
@@ -158,14 +199,12 @@ class Mod implements IPostDBLoadMod {
     );
   }
 
-  private autoUpdate(config: Record<string, any>) {}
-
   static getRequiredForExtracts(obj: {
     config: Record<string, any>;
     keyId: string;
     keyInfoFile: Record<string, any>;
     modLocale: Record<string, any>;
-    dbLocale: Record<string, string>;
+    dbLangLocale: Record<string, string>;
   }): string {
     const { config, keyId, keyInfoFile, modLocale } = obj;
     if (config.requriedForExtract) {
@@ -191,15 +230,15 @@ class Mod implements IPostDBLoadMod {
     keyId: string;
     keyInfoFile: Record<string, any>;
     modLocale: Record<string, any>;
-    dbLocale: Record<string, string>;
+    dbLangLocale: Record<string, string>;
   }): string {
-    const { config, keyId, keyInfoFile, dbLocale, modLocale } = obj;
+    const { config, keyId, keyInfoFile, dbLangLocale, modLocale } = obj;
 
     if (config.requiredInQuests) {
       let questList = '';
 
       for (const questId of keyInfoFile.Keys[keyId].Quest) {
-        questList = questList + dbLocale[`${questId} name`] + ', ';
+        questList = questList + dbLangLocale[`${questId} name`] + ', ';
       }
 
       const requiredInQuests =
@@ -218,7 +257,7 @@ class Mod implements IPostDBLoadMod {
     keyId: string;
     keyInfoFile: Record<string, any>;
     modLocale: Record<string, any>;
-    dbLocale: Record<string, string>;
+    dbLangLocale: Record<string, string>;
   }): string {
     const { config, keyId, keyInfoFile, modLocale } = obj;
     if (config.behindTheLoock) {
