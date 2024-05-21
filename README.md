@@ -28,11 +28,6 @@ Please refer to the original mod for more/ legacy descriptions: https://hub.sp-t
 }
 ```
 
-## To-do List
-
-- Fix auto-update (it works now but not quite)
-- Clean up unused code for Key Tier List in the client mod
-
 ##
 
 If you find any problems please comment or ping me on SPT discord: @maxloo2
