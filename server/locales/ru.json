@@ -1,8 +1,8 @@
 {
-  "_version": "1.0.0",
+  "_version": "1.2.3",
   "mapString": "Локация",
   "requiredInQuests": "Используется в квестах",
-  "requriedForExtract": "Извлекать",
+  "requriedForExtracts": "Извлекать",
   "behindTheLock": "Доступ к добыче",
   "yes": "Да",
   "no": "Нет",

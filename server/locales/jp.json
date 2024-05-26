@@ -1,8 +1,8 @@
 {
-  "_version": "1.0.0",
+  "_version": "1.2.3",
   "mapString": "地図",
   "requiredInQuests": "クエストで必要",
-  "requriedForExtract": "エキス",
+  "requriedForExtracts": "エキス",
   "behindTheLock": "戦利品にアクセス",
   "yes": "はい",
   "no": "いいえ",

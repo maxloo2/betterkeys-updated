@@ -1,8 +1,8 @@
 {
-  "_version": "1.0.0",
+  "_version": "1.2.3",
   "mapString": "Mapa",
   "requiredInQuests": "Wymagane w misjach",
-  "requriedForExtract": "Ekstrakt",
+  "requriedForExtracts": "Ekstrakt",
   "behindTheLock": "Dostęp do łupów",
   "yes": "Tak",
   "no": "Nie",

@@ -1,8 +1,8 @@
 {
-  "_version": "1.0.0",
+  "_version": "1.2.3",
   "mapString": "所屬地圖",
   "requiredInQuests": "使用於以下任務中",
-  "requriedForExtract": "使用於以下撤離點",
+  "requriedForExtracts": "使用於以下撤離點",
   "behindTheLock": "有機會獲得的物品",
   "yes": "是",
   "no": "否",

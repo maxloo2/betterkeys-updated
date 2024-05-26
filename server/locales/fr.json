@@ -1,8 +1,8 @@
 {
-  "_version": "1.0.0",
+  "_version": "1.2.3",
   "mapString": "Carte",
   "requiredInQuests": "Requis dans les quêtes",
-  "requriedForExtract": "Extrait",
+  "requriedForExtracts": "Extrait",
   "behindTheLock": "Accède au butin",
   "yes": "Oui",
   "no": "Non",

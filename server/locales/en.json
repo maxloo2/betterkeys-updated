@@ -1,8 +1,8 @@
 {
-  "_version": "1.0.0",
+  "_version": "1.2.3",
   "mapString": "Map",
   "requiredInQuests": "Required in Quests",
-  "requriedForExtract": "Required for Extract",
+  "requriedForExtracts": "Required for Extracts",
   "behindTheLock": "Behind the Lock",
   "yes": "Yes",
   "no": "No",

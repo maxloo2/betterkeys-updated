@@ -1,8 +1,8 @@
 {
-  "_version": "1.0.0",
+  "_version": "1.2.3",
   "mapString": "지역",
   "requiredInQuests": "퀘스트",
-  "requriedForExtract": "탈출구",
+  "requriedForExtracts": "탈출구",
   "behindTheLock": "전리품 유형",
   "yes": "예",
   "no": "없음",
