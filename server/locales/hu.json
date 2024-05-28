@@ -1,8 +1,8 @@
 {
-  "_version": "1.0.0",
+  "_version": "1.2.3",
   "mapString": "Térkép",
   "requiredInQuests": "Kötelező a küldetésekben",
-  "requriedForExtract": "Kivonat",
+  "requriedForExtracts": "Kivonat",
   "behindTheLock": "Hozzáfér a Loothoz",
   "yes": "Igen",
   "no": "Nem",

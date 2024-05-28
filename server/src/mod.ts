@@ -207,7 +207,8 @@ class Mod implements IPostDBLoadModAsync {
     dbLangLocale: Record<string, string>;
   }): string {
     const { config, keyId, keyInfoFile, modLocale } = obj;
-    if (config.requriedForExtract) {
+
+    if (config.requiredForExtracts) {
       let extractList = '';
 
       for (const extract of keyInfoFile.Keys[keyId].Extract) {
@@ -219,7 +220,7 @@ class Mod implements IPostDBLoadModAsync {
           ? extractList.substring(0, extractList.length - 2)
           : `${modLocale.no}`;
 
-      return `${modLocale.requriedForExtract}: ${requiredForExtracts}.\n`;
+      return `${modLocale.requriedForExtracts}: ${requiredForExtracts}.\n`;
     } else {
       return '';
     }

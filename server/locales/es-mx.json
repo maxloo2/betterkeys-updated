@@ -1,8 +1,8 @@
 {
-  "_version": "1.0.0",
+  "_version": "1.2.3",
   "mapString": "Mapa",
   "requiredInQuests": "Requerido en Misiones",
-  "requriedForExtract": "Extracción",
+  "requriedForExtracts": "Extracción",
   "behindTheLock": "Accede al botín",
   "yes": "Sí",
   "no": "No",
