@@ -27,11 +27,3 @@ Please refer to the original mod for more/ legacy descriptions: https://hub.sp-t
   "backgroundColors": {...} // Please refer to config/README.md
 }
 ```
-
-##
-
-If you find any problems please comment or ping me on SPT discord: @maxloo2
-
-Feel free to make pull requests on GitHub if you find anything outdated/ broken, I will be actively maintaining this repository even if I don't have time to make new updates.
-
-I do not have too much experiences with Unity/ C# modding so any help in that regard will be much appreciated!
