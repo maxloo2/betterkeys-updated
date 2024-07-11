@@ -1,10 +1,10 @@
 {
-  "_version": "1.0.0",
+  "_version": "3.9.0",
   "Keys": {
     "59136a4486f774447a1ed172": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["WeaponBox", "WeaponRack", "Ammo"]
+      "Loot": ["Weapon", "Weapon", "Ammo"]
     },
     "591383f186f7744a4c5edcf3": {
       "Extract": [],
@@ -49,12 +49,12 @@
     "5938504186f7740991483f30": {
       "Extract": [],
       "Quest": ["5967725e86f774601a446662"],
-      "Loot": ["Bag"]
+      "Loot": ["SportBag"]
     },
     "59148c8a86f774197930e983": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["WeaponRack", "Safe", "LooseLoot"]
+      "Loot": ["Weapon", "Safe", "LooseLoot"]
     },
     "5780cf942459777df90dcb72": {
       "Extract": [],
@@ -69,7 +69,7 @@
     "5780cfa52459777dfb276eb1": {
       "Extract": [],
       "Quest": ["5979f9ba86f7740f6c3fe9f2", "597a0b2986f77426d66c0633"],
-      "Loot": ["Bag", "Jacket", "LooseLoot", "LooseCash"]
+      "Loot": ["SportBag", "Jacket", "LooseLoot", "LooseCash"]
     },
     "593aa4be86f77457f56379f8": {
       "Extract": [],
@@ -94,7 +94,7 @@
     "5780cf7f2459777de4559322": {
       "Extract": [],
       "Quest": ["5a27ba1c86f77461ea5a3c56"],
-      "Loot": ["LooseVal", "LooseLoot"]
+      "Loot": ["LooseVals", "LooseLoot"]
     },
     "5937ee6486f77408994ba448": {
       "Extract": [],
@@ -104,12 +104,12 @@
     "5913915886f774123603c392": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["WeaponRack", "Ammo", "Crate"]
+      "Loot": ["Weapon", "Ammo", "Crate"]
     },
     "5780d0532459777a5108b9a2": {
       "Extract": [],
       "Quest": ["59674eb386f774539f14813a", "5ac3462b86f7741d6118b983"],
-      "Loot": ["Bag", "PC", "Safe", "Jacket", "LooseLoot"]
+      "Loot": ["SportBag", "PC", "Safe", "Jacket", "LooseLoot"]
     },
     "5780d07a2459777de4559324": {
       "Extract": [],
@@ -119,7 +119,7 @@
     "5938144586f77473c2087145": {
       "Extract": [],
       "Quest": ["5967530a86f77462ba22226b"],
-      "Loot": ["WeaponBox"]
+      "Loot": ["Weapon"]
     },
     "5913611c86f77479e0084092": {
       "Extract": [],
@@ -144,7 +144,16 @@
     "5da743f586f7744014504f72": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["WeaponBox", "Crate"]
+      "Loot": ["Weapon", "Crate"]
+    },
+    "664d4b0103ef2c61246afb56": {
+      "Extract": [],
+      "Quest": [
+        "66058ccbc7f3584787181478",
+        "66058cd19f59e625462acc90",
+        "66058ccf06ef1d50a60c1f48"
+      ],
+      "Loot": ["LooseVals", "LooseGear", "DeadBody", "LooseLoot"]
     }
   }
 }

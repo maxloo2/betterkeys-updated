@@ -1,5 +1,5 @@
 {
-  "_version": "1.0.0",
+  "_version": "3.9.0",
   "Keys": {
     "5a0448bc86f774736f14efa8": {
       "Extract": [],
@@ -14,7 +14,7 @@
     "5a0eb6ac86f7743124037a28": {
       "Extract": [],
       "Quest": ["5edaba7c0c502106f869bc02"],
-      "Loot": ["Safe", "WeaponRack", "PC", "LooseCash", "Jacket", "LooseLoot"]
+      "Loot": ["Safe", "Weapon", "PC", "LooseCash", "Jacket", "LooseLoot"]
     },
     "5a0f068686f7745b0d4ea242": {
       "Extract": [],
@@ -49,15 +49,15 @@
     "5a0dc95c86f77452440fc675": {
       "Extract": [],
       "Quest": ["5b478eca86f7744642012254"],
-      "Loot": ["Bag", "LooseLoot"]
+      "Loot": ["SportBag", "LooseLoot"]
     },
     "5a144dfd86f77445cb5a0982": {
       "Extract": [],
       "Quest": [],
       "Loot": [
         "Medbag",
-        "WeaponBox",
-        "Bag",
+        "Weapon",
+        "SportBag",
         "Toolbox",
         "LooseCash",
         "LooseLoot"
@@ -71,27 +71,27 @@
     "5a0ee30786f774023b6ee08f": {
       "Extract": [],
       "Quest": ["5b4794cb86f774598100d5d4"],
-      "Loot": ["WeaponBox", "Grenade", "LooseLoot"]
+      "Loot": ["Weapon", "Grenade", "LooseLoot"]
     },
     "5a13eebd86f7746fd639aa93": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["WeaponRack", "LooseLoot"]
+      "Loot": ["Weapon", "LooseLoot"]
     },
     "5a13ef0686f7746e5a411744": {
       "Extract": [],
       "Quest": ["5a03296886f774569778596a"],
-      "Loot": ["WeaponRack", "WeaponBox", "LooseLoot"]
+      "Loot": ["Weapon", "Weapon", "LooseLoot"]
     },
     "5a0ee34586f774023b6ee092": {
       "Extract": [],
       "Quest": ["5a03296886f774569778596a"],
-      "Loot": ["WeaponBox", "LooseCash", "LooseLoot", "LooseVal"]
+      "Loot": ["Weapon", "LooseCash", "LooseLoot", "LooseVals"]
     },
     "5a0ee37f86f774023657a86f": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["WeaponBox", "LooseCash"]
+      "Loot": ["Weapon", "LooseCash"]
     },
     "5a1452ee86f7746f33111763": {
       "Extract": [],
@@ -101,7 +101,7 @@
     "5a13ef7e86f7741290491063": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["WeaponBox", "PC", "LooseCash", "LooseLoot"]
+      "Loot": ["Weapon", "PC", "LooseCash", "LooseLoot"]
     },
     "5a13f46386f7741dd7384b04": {
       "Extract": [],
@@ -111,27 +111,27 @@
     "5a13ee1986f774794d4c14cd": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["WeaponRack", "LooseLoot"]
+      "Loot": ["Weapon", "LooseLoot"]
     },
     "5a0ea64786f7741707720468": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["Medbag", "Bag", "LooseCash", "LooseLoot"]
+      "Loot": ["Medbag", "SportBag", "LooseCash", "LooseLoot"]
     },
     "5eff09cd30a7dc22fd1ddfed": {
       "Extract": [],
       "Quest": ["5f04886a3937dc337a6b8238"],
-      "Loot": ["PC", "Bag", "LooseLoot"]
+      "Loot": ["PC", "SportBag", "LooseLoot"]
     },
     "5a144bdb86f7741d374bbde0": {
       "Extract": [],
       "Quest": [],
       "Loot": [
-        "WeaponBox",
-        "WeaponRack",
+        "Weapon",
+        "Weapon",
         "Medbag",
-        "Bag",
-        "LooseVal",
+        "SportBag",
+        "LooseVals",
         "LooseLoot"
       ]
     },
@@ -139,11 +139,11 @@
       "Extract": [],
       "Quest": [],
       "Loot": [
-        "WeaponBox",
-        "WeaponRack",
+        "Weapon",
+        "Weapon",
         "Medbag",
-        "Bag",
-        "LooseVal",
+        "SportBag",
+        "LooseVals",
         "LooseLoot"
       ]
     },
@@ -151,11 +151,11 @@
       "Extract": [],
       "Quest": [],
       "Loot": [
-        "WeaponBox",
-        "WeaponRack",
+        "Weapon",
+        "Weapon",
         "Grenade",
         "Toolbox",
-        "LooseVal",
+        "LooseVals",
         "LooseLoot"
       ]
     },
@@ -163,68 +163,59 @@
       "Extract": [],
       "Quest": [],
       "Loot": [
-        "WeaponBox",
-        "WeaponRack",
+        "Weapon",
+        "Weapon",
         "Grenade",
         "Toolbox",
         "LooseCash",
-        "LooseVal",
+        "LooseVals",
         "LooseLoot"
       ]
     },
     "5a145d4786f7744cbb6f4a12": {
       "Extract": [],
       "Quest": ["5a27bb1e86f7741f27621b7e", "5b4794cb86f774598100d5d4"],
-      "Loot": [
-        "WeaponBox",
-        "WeaponRack",
-        "PC",
-        "Medbag",
-        "LooseCash",
-        "LooseVal"
-      ]
+      "Loot": ["Weapon", "Weapon", "PC", "Medbag", "LooseCash", "LooseVals"]
     },
     "5a145d7b86f7744cbb6f4a13": {
       "Extract": [],
       "Quest": ["5a27bb1e86f7741f27621b7e", "5b4794cb86f774598100d5d4"],
-      "Loot": [
-        "WeaponBox",
-        "WeaponRack",
-        "PC",
-        "Medbag",
-        "LooseCash",
-        "LooseVal"
-      ]
+      "Loot": ["Weapon", "Weapon", "PC", "Medbag", "LooseCash", "LooseVals"]
     },
     "5a0eec9686f77402ac5c39f2": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["Bag", "LooseVal"]
+      "Loot": ["SportBag", "LooseVals"]
     },
     "5a0eecf686f7740350630097": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["WeaponBox", "Medbag", "LooseCash", "LooseLoot"]
+      "Loot": ["Weapon", "Medbag", "LooseCash", "LooseLoot"]
     },
     "5a0eed4386f77405112912aa": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["WeaponBox", "Medbag", "LooseCash", "LooseLoot"]
+      "Loot": ["Weapon", "Medbag", "LooseCash", "LooseLoot"]
     },
     "5a145ebb86f77458f1796f05": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["WeaponBox", "Medbag", "LooseLoot"]
+      "Loot": ["Weapon", "Medbag", "LooseLoot"]
     },
     "5a0eee1486f77402aa773226": {
       "Extract": [],
       "Quest": ["5a27bc6986f7741c7358402b"],
-      "Loot": ["PC", "Bag", "LooseLoot"]
+      "Loot": ["PC", "SportBag", "LooseLoot"]
     },
     "5d8e15b686f774445103b190": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["WeaponBox", "LooseLoot"]
+      "Loot": ["Weapon", "LooseLoot"]
+    },
+    "664d3ddfdda2e85aca370d75": {
+      "Extract": [],
+      "Quest": [],
+      "Loot": ["LooseVals", "LooseGear", "SportBag", "LooseLoot"]
     }
   }
 }

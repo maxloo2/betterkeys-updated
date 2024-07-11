@@ -1,10 +1,10 @@
 {
-  "_version": "1.0.0",
+  "_version": "3.9.0",
   "Keys": {
     "5d80c78786f774403a401e3e": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["PC", "Bag", "LooseLoot"]
+      "Loot": ["PC", "SportBag", "LooseLoot"]
     },
     "5d80c88d86f77440556dbf07": {
       "Extract": [],
@@ -14,12 +14,12 @@
     "5d80c66d86f774405611c7d6": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["WeaponRack", "LooseLoot"]
+      "Loot": ["Weapon", "LooseLoot"]
     },
     "5d80c60f86f77440373c4ece": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["LooseVal"]
+      "Loot": ["LooseVals"]
     },
     "5d8e3ecc86f774414c78d05e": {
       "Extract": [],
@@ -34,12 +34,12 @@
     "5d8e0e0e86f774321140eb56": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["Safe", "WeaponRack", "WeaponBox"]
+      "Loot": ["Safe", "Weapon", "Weapon"]
     },
     "5d947d4e86f774447b415895": {
       "Extract": [],
       "Quest": ["60896e28e4a85c72ef3fa301"],
-      "Loot": ["Bag", "LooseLoot"]
+      "Loot": ["SportBag", "LooseLoot"]
     },
     "5d80c93086f7744036212b41": {
       "Extract": [],
@@ -59,12 +59,12 @@
     "5d80ca9086f774403a401e40": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["Drawer", "WeaponRack", "WeaponBox", "Toolbox", "LooseLoot"]
+      "Loot": ["Drawer", "Weapon", "Weapon", "Toolbox", "LooseLoot"]
     },
     "5d80cab086f77440535be201": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["WeaponRack", "Ammo", "Toolbox", "LooseLoot"]
+      "Loot": ["Weapon", "Ammo", "Toolbox", "LooseLoot"]
     },
     "5d80c6c586f77440351beef1": {
       "Extract": [],
@@ -79,17 +79,17 @@
     "5d80ccac86f77470841ff452": {
       "Extract": [],
       "Quest": ["608974af4b05530f55550c21"],
-      "Loot": ["WeaponRack", "Drawer", "LooseLoot"]
+      "Loot": ["Weapon", "Drawer", "LooseLoot"]
     },
     "5d80ccdd86f77474f7575e02": {
       "Extract": [],
       "Quest": ["608974af4b05530f55550c21"],
-      "Loot": ["WeaponBox", "Drawer", "LooseLoot"]
+      "Loot": ["Weapon", "Drawer", "LooseLoot"]
     },
     "5d80cd1a86f77402aa362f42": {
       "Extract": [],
       "Quest": ["608974af4b05530f55550c21"],
-      "Loot": ["WeaponRack", "Drawer", "LooseLoot"]
+      "Loot": ["Weapon", "Drawer", "LooseLoot"]
     },
     "5ede7a8229445733cb4c18e2": {
       "Extract": [],
@@ -139,17 +139,17 @@
     "5d9f1fa686f774726974a992": {
       "Extract": [],
       "Quest": ["6089732b59b92115597ad789", "6086c852c945025d41566124"],
-      "Loot": ["WeaponBox", "Grenade", "LooseLoot"]
+      "Loot": ["Weapon", "Grenade", "LooseLoot"]
     },
     "5d80c6fc86f774403a401e3c": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["WeaponRack", "LooseLoot"]
+      "Loot": ["Weapon", "LooseLoot"]
     },
     "5d80c62a86f7744036212b3f": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["LooseVal"]
+      "Loot": ["LooseVals"]
     }
   }
 }

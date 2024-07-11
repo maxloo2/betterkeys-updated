@@ -1,9 +1,9 @@
 {
-  "enableAutoUpdate": true,
+  "enableAutoUpdate": false,
   "github": "https://raw.githubusercontent.com/maxloo2/betterkeys-updated/main",
   "backgroundColor": true,
   "descriptionInfo": true,
-  "yellowMarkedKeys": true,
+  "yellowMarkedKeys": false,
   "requiredInQuests": true,
   "requiredForExtracts": true,
   "behindTheLoock": true,

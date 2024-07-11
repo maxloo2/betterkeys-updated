@@ -1,14 +1,14 @@
 import { DependencyContainer } from 'tsyringe';
 
-import { ItemHelper } from '@spt-aki/helpers/ItemHelper';
-import { BaseClasses } from '@spt-aki/models/enums/BaseClasses';
-import { LogTextColor } from '@spt-aki/models/spt/logging/LogTextColor';
-import { IDatabaseTables } from '@spt-aki/models/spt/server/IDatabaseTables';
-import { DatabaseServer } from '@spt-aki/servers/DatabaseServer';
-import { VFS } from '@spt-aki/utils/VFS';
+import { ItemHelper } from '@spt/helpers/ItemHelper';
+import { BaseClasses } from '@spt/models/enums/BaseClasses';
+import { LogTextColor } from '@spt/models/spt/logging/LogTextColor';
+import { IDatabaseTables } from '@spt/models/spt/server/IDatabaseTables';
+import { DatabaseServer } from '@spt/servers/DatabaseServer';
+import { VFS } from '@spt/utils/VFS';
 
-import { IPostDBLoadModAsync } from '@spt-aki/models/external/IPostDBLoadModAsync';
-import { ILogger } from '@spt-aki/models/spt/utils/ILogger';
+import { IPostDBLoadModAsync } from '@spt/models/external/IPostDBLoadModAsync';
+import { ILogger } from '@spt/models/spt/utils/ILogger';
 import _package from '../package.json';
 
 class Mod implements IPostDBLoadModAsync {
@@ -142,7 +142,7 @@ class Mod implements IPostDBLoadModAsync {
             };
 
             const keyInfo =
-              `${modLocale.mapString}: ${dbLangLocale[`${mapId} Name`]}.\n` +
+              `${modLocale.map}: ${dbLangLocale[`${mapId} Name`]}.\n` +
               `${Mod.getRequiredForExtracts(obj)}` +
               `${Mod.getRequiredInQuests(obj)}${Mod.getBehindTheLock(obj)}`;
 
@@ -218,7 +218,7 @@ class Mod implements IPostDBLoadModAsync {
       const requiredForExtracts: string =
         extractList.length > 0
           ? extractList.substring(0, extractList.length - 2)
-          : `${modLocale.no}`;
+          : `${modLocale.none}`;
 
       return `${modLocale.requriedForExtracts}: ${requiredForExtracts}.\n`;
     } else {
@@ -245,7 +245,7 @@ class Mod implements IPostDBLoadModAsync {
       const requiredInQuests =
         questList.length > 0
           ? questList.substring(0, questList.length - 2)
-          : `${modLocale.no}`;
+          : `${modLocale.none}`;
 
       return `${modLocale.requiredInQuests}: ${requiredInQuests}.\n`;
     } else {
@@ -271,7 +271,7 @@ class Mod implements IPostDBLoadModAsync {
       const behindTheLock: string =
         lootList.length > 0
           ? lootList.substring(0, lootList.length - 2)
-          : `${modLocale.no}`;
+          : `${modLocale.none}`;
 
       return `${modLocale.behindTheLock}: ${behindTheLock}.\n`;
     } else {

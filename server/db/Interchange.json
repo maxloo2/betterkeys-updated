@@ -1,5 +1,5 @@
 {
-  "_version": "1.0.0",
+  "_version": "3.9.0",
   "Keys": {
     "5ad5ccd186f774446d5706e9": {
       "Extract": [],
@@ -19,7 +19,7 @@
     "5ad5d49886f77455f9731921": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["Crate", "WeaponBox", "LooseLoot"]
+      "Loot": ["Crate", "Weapon", "LooseLoot"]
     },
     "5ad5d64486f774079b080af8": {
       "Extract": [],
@@ -34,12 +34,12 @@
     "5addaffe86f77470b455f900": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["WeaponBox", "CashReg", "LooseCash", "LooseLoot"]
+      "Loot": ["Weapon", "CashReg", "LooseCash", "LooseLoot"]
     },
     "5ad5db3786f7743568421cce": {
       "Extract": [],
       "Quest": ["5b478eca86f7744642012254"],
-      "Loot": ["Medbag", "Jacket", "Bag", "LooseLoot"]
+      "Loot": ["Medbag", "Jacket", "SportBag", "LooseLoot"]
     },
     "5ad7217186f7746744498875": {
       "Extract": [],
@@ -64,12 +64,17 @@
     "5e42c83786f7742a021fdf3c": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["WeaponBox"]
+      "Loot": ["Weapon"]
     },
     "5e42c81886f7742a01529f57": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["WeaponBox"]
+      "Loot": ["Weapon"]
+    },
+    "664d3dd590294949fe2d81b7": {
+      "Extract": [],
+      "Quest": [],
+      "Loot": ["LooseVals", "LooseGear", "LooseLoot", "Jacket", "SportBag"]
     }
   }
 }

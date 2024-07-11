@@ -1,5 +1,5 @@
 {
-  "_version": "1.2.2",
+  "_version": "3.9.0",
   "Keys": {
     "658199aa38c79576a2569e13": {
       "Extract": [],
@@ -9,7 +9,7 @@
     "658199972dc4e60f6d556a2f": {
       "Extract": [],
       "Quest": [],
-      "Loot": ["DeadScav", "Ammo", "Toolbox", "Grenade", "WeaponBox"]
+      "Loot": ["DeadBody", "Ammo", "Toolbox", "Grenade", "Weapon"]
     },
     "6581998038c79576a2569e11": {
       "Extract": [],
